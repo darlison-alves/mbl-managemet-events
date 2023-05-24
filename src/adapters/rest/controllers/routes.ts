@@ -8,6 +8,6 @@ const eventsController: EventsController = container.get<EventsController>(TYPES
 
 const router = Router();
 
-router.get('/', eventsController.findAll);
+router.get('/', (req, res) => eventsController.findAll(req, res));
 
 export default router;
