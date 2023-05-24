@@ -1,5 +1,6 @@
-import { EventsController } from "../rest/controllers/events.controller";
-
 export const TYPES = {
-    EventsController: Symbol.for(EventsController.name)
+    EventsController: Symbol.for("EventsController"),
+
+    EventRepository: Symbol.for("EventRepository"),
+    EventManagerService: Symbol.for("EventManagerService")
 }
