@@ -22,21 +22,27 @@ export class EventTable1684853111069 implements MigrationInterface {
                     isNullable: true
                 },
                 {
+                    name: "price",
+                    type: "decimal"
+                },
+                {
                     name: "status",
                     type: "varchar"
                 },
                 {
                     name: "show_date",
-                    type: "timestamp",
+                    type: "timestamptz",
                     isNullable: true
                 },
                 {
                     name: "created_at",
-                    type: "timestamp"
+                    type: "timestamptz",
+                    default: "now()"
                 },
                 {
                     name: "updated_at",
-                    type: "timestamp"
+                    type: "timestamptz",
+                    default: "now()"
                 }
             ]
         }))
