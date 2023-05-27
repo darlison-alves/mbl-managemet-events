@@ -20,4 +20,8 @@ export default class EventRepository {
         return this._repo.save(event);
     }
 
+    public async findById(id: string) {
+        return this._repo.findOneBy({ id });
+    }
+
 }

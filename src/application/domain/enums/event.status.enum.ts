@@ -1,4 +1,5 @@
 export enum EventStatusEnum {
-    AVAILABLE,
-    CANCELED
+    AVAILABLE = "AVAILABLE",
+    CANCELED = "CANCELED",
+    SOLD_OFF = "SOLD_OFF"
 }

@@ -1,6 +1,6 @@
 import { Container } from "inversify";
 import EventManagerService from "../../application/services/event-manager.service";
-import { EventRepository } from "../persistence/event.repository";
+import EventRepository from "../persistence/event.repository";
 import { EventsController } from "../rest/controllers/events.controller";
 import { TYPES } from "./types";
 

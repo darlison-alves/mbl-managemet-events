@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import "reflect-metadata";
 import { EventStatusEnum } from "../enums/event.status.enum";
 import { Order } from "./order.entity";
@@ -18,15 +18,18 @@ export default class Event extends BaseEntity {
     @Column({ enum: EventStatusEnum })
     status: EventStatusEnum;
 
+    @Column()
+    price: number;
+
     @OneToMany(() => Order, order => order.event)
     orders: Order[]
 
     @Column()
     show_date: Date;
 
-    @Column()
+    @CreateDateColumn({ type: 'timestamptz' })
     created_at: Date;
 
-    @Column()
+    @UpdateDateColumn({ type: 'timestamptz' })
     updated_at: Date;
 }
