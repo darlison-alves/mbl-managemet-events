@@ -1,0 +1,349 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Serviço para gerenciamento de eventos, disponibilidade e compra de ingressos",
+    "version": "1.0.0",
+    "title": "Gestão de Eventos",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Eventos",
+      "description": "Endpoint para gerenciamento de eventos ( criação, atualização, listagem, remoção)"
+    },
+    {
+      "name": "Orders",
+      "description": "Endpoint para compra de ingresso"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/event-management": {
+      "post": {
+        "tags": [
+          "Eventos"
+        ],
+        "summary": "Criação de Eventos",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "criação de eventos",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EventCreate"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "schema": {
+              "$ref": "#/definitions/ApiError"
+            },
+            "description": "Invalid input"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Eventos"
+        ],
+        "summary": "Lista de eventos",
+        "description": "Lista de evento com fitro em [name]",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Status values that need to be considered for filter",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/EventList"
+              }
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/ApiError"
+            },
+            "description": "Invalid status value"
+          }
+        }
+      }
+    },
+    "/event-management/{event_id}": {
+      "patch": {
+        "tags": [
+          "Eventos"
+        ],
+        "summary": "atualização evento cadastrado",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "path",
+            "description": "identificador do eventos",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pet object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EventCreate"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/ApiError"
+            },
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/ApiError"
+            },
+            "description": "Pet not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Eventos"
+        ],
+        "summary": "Remover evento",
+        "description": "caso exista com de ingresso o evento não será removido!",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/ApiError"
+            },
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/ApiError"
+            },
+            "description": "Pet not found"
+          }
+        }
+      }
+    },
+    "/event-management/{event_id}/pay": {
+      "post": {
+        "tags": [
+          "Eventos"
+        ],
+        "summary": "Compra de ingresso",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "event_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pet object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BuyDTO"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/ApiError"
+            },
+            "description": "Invalid input"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "BuyDTO": {
+      "type": "object",
+      "properties": {
+        "payment_method": {
+          "type": "string",
+          "enum": [
+            "CREDIT",
+            "BOL",
+            "DEBIT"
+          ],
+          "description": "formas de pagamento disponoveis"
+        },
+        "card": {
+          "type": "object",
+          "properties": {
+            "number": {
+              "type": "string"
+            }
+          }
+        },
+        "customer": {
+          "type": "object",
+          "properties": {
+            "document": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "EventList": {
+      "type": "object",
+      "required": [
+        "name",
+        "price",
+        "show_date"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string",
+          "example": "Rock In Rio"
+        },
+        "price": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "description": "define a disponibilidade do evento",
+          "enum": [
+            "AVAILABLE",
+            "CANCELED",
+            "SOLD_OFF"
+          ]
+        },
+        "show_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "EventCreate": {
+      "type": "object",
+      "required": [
+        "name",
+        "price",
+        "show_date"
+      ],
+      "properties": {        
+        "name": {
+          "type": "string",
+          "example": "Rock In Rio"
+        },
+        "price": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "description": "define a disponibilidade do evento",
+          "enum": [
+            "AVAILABLE",
+            "CANCELED",
+            "SOLD_OFF"
+          ]
+        },
+        "show_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "ApiError": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}

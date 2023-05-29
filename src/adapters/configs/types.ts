@@ -2,5 +2,9 @@ export const TYPES = {
     EventsController: Symbol.for("EventsController"),
 
     EventRepository: Symbol.for("EventRepository"),
-    EventManagerService: Symbol.for("EventManagerService")
+    OrderRepository: Symbol.for("OrderRepository"),
+
+    EventManagerService: Symbol.for("EventManagerService"),
+
+    BuyTickethandler: Symbol.for("BuyTickethandler")
 }

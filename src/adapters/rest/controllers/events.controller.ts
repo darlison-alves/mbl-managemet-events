@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { inject, injectable } from "inversify";
+import { BuyTickethandler } from "../../../application/handles/buy.ticket.handler";
 import EventManagerService from "../../../application/services/event-manager.service";
 import { Logger } from "../../configs/logger";
 import { TYPES } from "../../configs/types";
@@ -8,7 +9,8 @@ import { TYPES } from "../../configs/types";
 export class EventsController {
 
     constructor(
-        @inject(TYPES.EventManagerService) private eventManagerService: EventManagerService
+        @inject(TYPES.EventManagerService) private eventManagerService: EventManagerService,
+        @inject(TYPES.BuyTickethandler) private buyTickethandler: BuyTickethandler
     ) { }
 
     public async findAll(req: Request, res: Response) {
@@ -30,6 +32,16 @@ export class EventsController {
         try {
             const event = await this.eventManagerService.update(req.params.id, req.body);
             return res.json(event)
+        } catch (error) {
+            Logger.info((error as Error).message)
+            next(error)
+        }
+    }
+
+    public async buyTicket(req: Request, res: Response, next: NextFunction) {
+        try {
+            const order = await this.buyTickethandler.buy(req.params.id, req.body);
+            return res.json(order);
         } catch (error) {
             Logger.info((error as Error).message)
             next(error)

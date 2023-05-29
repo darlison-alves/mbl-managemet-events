@@ -16,5 +16,8 @@ services:
       - DATABASE_HOST=db
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=root
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=postgres
+      - TZ='America/Fortaleza'
     ports:
-      - "3001:3000"
+      - "3000:3000"
