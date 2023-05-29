@@ -1,4 +1,4 @@
-import { dataSource } from '../../../src/adapters/persistence/datasource.config';
+import { dataSource } from "../../../src/adapters/configs/datasource.config";
 import EventRepository from '../../../src/adapters/persistence/event.repository';
 import Event from '../../../src/application/domain/entities/event.entity';
 import EventManagerService from '../../../src/application/services/event-manager.service';
