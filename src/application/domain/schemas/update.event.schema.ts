@@ -6,7 +6,7 @@ import { EventStatusEnum } from "../enums/event.status.enum";
 export const updateEventSchema = object<IEventCreateDTO>({
     name: string().optional(),
     description: string().optional(),
-    status: string().oneOf([EventStatusEnum.AVAILABLE, EventStatusEnum.CANCELED]).optional(),
+    status: string().oneOf([EventStatusEnum.AVAILABLE, EventStatusEnum.CANCELED, EventStatusEnum.SOLD_OFF]).optional(),
     show_date: date().transform(function (value, orinal) {
         console.log('orinal', orinal)
         if(DateUtils.validateFormat(orinal))

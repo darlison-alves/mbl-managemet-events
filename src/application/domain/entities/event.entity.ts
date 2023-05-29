@@ -32,4 +32,5 @@ export default class Event extends BaseEntity {
 
     @UpdateDateColumn({ type: 'timestamptz' })
     updated_at: Date;
+    
 }
